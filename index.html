@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cápsula do Tempo - João Elias & Gabriely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 0 1rem 2rem 1rem;
+    }
+    .text-center { text-align: center; }
+    .mb-12 { margin-bottom: 3rem; }
+    .text-5xl {
+      font-size: 3rem;
+      line-height: 1;
+    }
+    .font-bold { font-weight: 700; }
+    .text-slate-700 { color: #475569; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .text-3xl {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+    }
+    .font-semibold { font-weight: 600; }
+    .text-rose-600 { color: #e11d48; }
+    .text-xl {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
+    .mb-4 { margin-bottom: 1rem; }
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+    }
+    .italic { font-style: italic; }
+    .max-w-2xl { max-width: 42rem; margin: auto; }
+    .max-w-3xl { max-width: 48rem; margin: auto; }
+    .rounded-2xl { border-radius: 1rem; }
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    .p-8 { padding: 2rem; }
+    .w-full { width: 100%; }
+    .border { border-width: 1px; }
+    .border-gray-300 { border-color: #d1d5db; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .bg-white { background-color: #fff; }
+    .text-gray-800 { color: #1f2937; }
+    .bg-gradient-to-r { background-image: linear-gradient(to right, #1e3a8a, #f43f5e); }
+    .hover\:from-blue-800:hover { --tw-gradient-from: #1e40af; }
+    .hover\:to-rose-600:hover { --tw-gradient-to: #e11d48; }
+    .text-white { color: #fff; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .font-medium { font-weight: 500; }
+    .transition-all {
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .spinner-icon {
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .success-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .success-popup.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Estilo galeria */
+    #gallery {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 1.5rem;
+    }
+    .gallery-item {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgb(0 0 0 / 0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+    .gallery-item img {
+      max-width: 100%;
+      border-radius: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .gallery-item p {
+      margin: 0.25rem 0;
+      word-wrap: break-word;
+      max-height: 4.5rem;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+  <div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold text-slate-700 mb-2">Cápsula do Tempo</h1>
+      <h2 class="text-3xl font-semibold text-rose-600 mb-2">João Elias & Gabriely</h2>
+      <p class="text-xl text-gray-600 mb-4">05 de Outubro de 2025</p>
+      <p class="text-lg text-gray-600 italic max-w-2xl mx-auto">
+        Seu clique não é apenas uma foto, é um pedaço da nossa história, capturado no tempo.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8 mb-12 max-w-3xl mx-auto text-center">
+      <input type="file" id="fileInput" accept="image/*"
+             class="mb-4 border border-gray-300 px-4 py-2 rounded-lg w-full text-gray-800" />
+      <input type="text" id="guestName" placeholder="Seu nome (opcional)"
+             class="mb-4 border border-gray-300 px-4 py-2 rounded-lg w-full text-gray-800" />
+      <input type="text" id="guestMessage" placeholder="Mensagem para os noivos (opcional)"
+             class="mb-4 border border-gray-300 px-4 py-2 rounded-lg w-full text-gray-800" />
+      <button id="uploadButton" onclick="uploadPhoto()"
+              class="bg-gradient-to-r from-blue-900 to-rose-500 hover:from-blue-800 hover:to-rose-600 text-white px-6 py-3 rounded-lg font-medium transition-all">
+        💕 Enviar Foto
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-2xl p-8">
+      <h3 class="text-3xl font-semibold text-gray-800 mb-8 text-center">
+        ✨ Galeria de Momentos Especiais
+      </h3>
+      <div id="gallery" class="text-center text-gray-500">
+        As fotos enviadas aparecerão aqui em breve.
+      </div>
+    </div>
+  </div>
+
+  <div id="successPopup" class="success-popup">
+    Obrigado por compartilhar! Sua foto já está em nossa galeria. ❤️
+  </div>
+
+  <script>
+    const IMGBB_API_KEY = "7eedffef4ccaae89b85c9f9c56c8071f";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzThjCd3uj1XxZJUcfiVRjqSu4bmRo9MBxILfq-bsKrYXhBZ8vKeg23OgKF1DcZYU9pww/exec";
+
+    const popup = document.getElementById("successPopup");
+    const button = document.getElementById("uploadButton");
+
+    function showPopup() {
+      popup.classList.add("show");
+      setTimeout(() => popup.classList.remove("show"), 3000);
+    }
+
+    async function uploadPhoto() {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      const name = document.getElementById("guestName").value || "Convidado";
+      const message = document.getElementById("guestMessage").value || "";
+
+      if (!file) {
+        alert("Escolha uma foto para enviar.");
+        return;
+      }
+
+      button.disabled = true;
+      button.innerHTML = `<span class="spinner-icon">💕</span> Enviando...`;
+
+      try {
+        // Upload para ImgBB
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+          method: "POST",
+          body: formData,
+        });
+        const imgbbData = await imgbbResponse.json();
+
+        if (!imgbbData.data || !imgbbData.data.url) throw new Error("Erro no upload da imagem");
+
+        // Salvar no Google Sheets via Apps Script
+        const saveResponse = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            nome: name,
+            mensagem: message,
+            foto: imgbbData.data.url,
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!saveResponse.ok) throw new Error("Erro ao salvar os dados");
+
+        showPopup();
+
+        // Limpar campos
+        fileInput.value = "";
+        document.getElementById("guestName").value = "";
+        document.getElementById("guestMessage").value = "";
+
+        carregarGaleria();
+
+      } catch (error) {
+        alert(error.message || "Erro desconhecido");
+      } finally {
+        button.disabled = false;
+        button.innerHTML = '💕 Enviar Foto';
+      }
+    }
+
+    async function carregarGaleria() {
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = "Carregando...";
+
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        if (!res.ok) throw new Error("Erro ao carregar galeria");
+
+        const fotos = await res.json();
+
+        if (!fotos.length) {
+          gallery.innerHTML = "<p>Nenhuma foto enviada ainda.</p>";
+          return;
+        }
+
+        gallery.innerHTML = fotos
+          .slice()
+          .reverse()
+          .map(
+            (foto) => `
+          <div class="gallery-item">
+            <img src="${foto.foto}" alt="Foto de ${foto.nome}" />
+            <p><strong>${foto.nome}</strong></p>
+            <p>${foto.mensagem}</p>
+          </div>
+        `
+          )
+          .join("");
+      } catch (error) {
+        gallery.innerHTML = "<p>Erro ao carregar a galeria.</p>";
+      }
+    }
+
+    carregarGaleria();
+  </script>
+</body>
+</html>
