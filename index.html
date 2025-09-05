@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cápsula do Tempo - João Elias & Gabriely</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap');
+    :root {
+      --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #f43f5e 100%);
+      --secondary-gradient: linear-gradient(135deg, #f43f5e 0%, #1e3a8a 100%);
+      --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* --- NOVO: Wrapper para fundo fixo (sem pulo) --- */
+   .bg-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+              url('C7BA4245-9A1E-4CD3-A96A-621A1E44A38B.jpeg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+  background-attachment: scroll;
+  will-change: transform;
+}
+    }
+.glass-header {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.text-rose-600 {
+  font-family: 'Great Vibes', cursive !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+    }
+/* Fonte principal do cabeçalho: elegante e legível */
+.glass-header h1,
+.glass-header h2 {
+  font-family: 'Playfair Display', 'Great Vibes', 'Dancing Script', cursive;
+  font-weight: 600;
+}
+
+/* Fonte do subtítulo (data e frase) */
+.glass-header p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 0 1rem 2rem 1rem;
+    }
+    /* Classes utilitárias Tailwind-like */
+    .text-center { text-align: center; }
+    .mb-12 { margin-bottom: 3rem; }
+    .text-5xl { font-size: 3rem; line-height: 1; }
+    .font-bold { font-weight: 700; }
+    .text-slate-700 { color: #334155; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+    .font-semibold { font-weight: 600; }
+    .text-rose-600 { color: #f43f5e; }
+    .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+    .italic { font-style: italic; }
+    .max-w-2xl { max-width: 42rem; margin: auto; }
+    .max-w-3xl { max-width: 48rem; margin: auto; }
+    .rounded-3xl { border-radius: 2rem; }
+    .shadow-2xl { box-shadow: var(--card-shadow); }
+    .p-8 { padding: 2rem; }
+    .w-full { width: 100%; }
+    .border { border-width: 1px; }
+    .border-gray-300 { border-color: #d1d5db; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .bg-white { background-color: #fff; }
+    .text-gray-800 { color: #1f2937; }
+    .text-white { color: #fff; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .font-medium { font-weight: 500; }
+    .transition-all { transition: var(--transition); }
+    .spinner-icon { animation: spin 1s linear infinite; display: inline-block; margin-right: 8px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .success-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--primary-gradient);
+      color: white;
+      padding: 20px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 1000;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.5s;
+      max-width: 90%;
+      width: 350px;
+    }
+    .success-popup.hidden { opacity: 0; pointer-events: none; }
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    #gallery .media-container {
+      position: relative;
+      border-radius: 1rem;
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      background: #f1f5f9;
+      transition: var(--transition);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+    #gallery .media-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+    #gallery img, #gallery video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: #f1f5f9;
+      border-radius: 1rem;
+      overflow: hidden;
+    }
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1rem;
+    }
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+    .video-overlay:hover {
+      background: rgba(0,0,0,0.5);
+      transform: scale(1.05);
+    }
+    .media-info {
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0 0 1rem 1rem;
+      position: relative;
+      z-index: 2;
+      max-height: 40px;
+      overflow: hidden;
+    }
+    .media-info .text-xs {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.75rem;
+      line-height: 1.2;
+    }
+    #lightboxOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      flex-direction: column;
+      padding: 1rem;
+    }
+    #lightboxContent {
+      max-width: 90%;
+      max-height: 80%;
+      position: relative;
+    }
+    #lightboxImage, #lightboxVideo {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 1rem;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+    }
+    #lightboxCaption {
+      color: #fff;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      max-width: 80%;
+    }
+    .navButton {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 2rem;
+      background: rgba(0,0,0,0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .navButton:hover {
+      background: rgba(0,0,0,0.5);
+    }
+    #prevBtn { left: 1rem; }
+    #nextBtn { right: 1rem; }
+    .close-lightbox {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(0,0,0,0.3);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .close-lightbox:hover {
+      background: rgba(0,0,0,0.5);
+    }
+    /* Estilos para os botões de alternância - CARTÕES INDIVIDUAIS */
+    .toggle-btn {
+      flex: 1;
+      padding: 1rem;
+      background-color: #e2e8f0;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Poppins', sans-serif;
+      border-top: 4px solid transparent;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .toggle-btn.active {
+      background: var(--primary-gradient);
+      color: white;
+      border-top-color: #f43f5e;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    .toggle-btn.photo {
+      border-top-color: #f43f5e;
+    }
+    .toggle-btn.message {
+      border-top-color: #00fbfe;
+    }
+    /* Animação de bounce ao clicar */
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-10px);}
+      60% { transform: translateY(-5px);}
+    }
+    .toggle-btn.bounce {
+      animation: bounce 0.5s;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Estilos para os botões de foto/vídeo - ALINHAMENTO INTERNO CORRIGIDO */
+ 
+.media-btn {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem; /* Espaço entre os elementos */
+  aspect-ratio: 1 / 1;
+  min-height: 150px;
+  padding: 1rem 0.8rem; /* Mais espaço interno, especialmente em cima e embaixo */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: 600;
+  overflow: hidden; /* Impede que o texto saia da caixa */
+}
+}
+.media-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+  position: relative;
+  z-index: 1;
+  will-change: filter; /* Ativa o blur */
+  transform: translateZ(0); /* Força renderização 3D */
+}
+.media-btn:hover {
+  background-color: rgba(10, 15, 30, 0.75);
+  border-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+.media-btn i {
+  font-size: 2rem;
+  color: #94a3b8;
+}
+ 
+.media-btn:hover i {
+  color: #e2e8f0;
+}
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+    .media-btn i {
+      font-size: 2rem;
+      color: #64748b;
+    }
+    .media-btn:hover i {
+      color: #1e293b;
+    }
+     .media-btn small {
+      display: block;
+      color: #64748b;
+      font-size: 0.75rem;
+      line-height: 1.3;
+      margin-top: 0;
+    }
+    /* Estilos para o botão de envio com barra de progresso */
+    .send-btn {
+  background: #1e293b; /* azul marinho escuro fixo */
+  color: white;
+}
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 4px 6px rgba(30, 58, 138, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .send-btn:hover:not(:disabled) {
+      background: var(--secondary-gradient);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(30, 58, 138, 0.3);
+    }
+    .send-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .send-btn.sending {
+      background: #94a3b8;
+    }
+    .send-btn.sent {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+    /* NOVO: Container para a barra de progresso ACIMA do botão */
+    .progress-wrapper {
+      height: 16px;
+      width: 100%;
+      background-color: #e2e8f0;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      position: relative;
+    }
+    .progress-wrapper.visible {
+        opacity: 1;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--primary-gradient);
+      width: 0%;
+      transition: width 0.3s ease;
+      position: relative;
+    }
+    .progress-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.875rem;
+      font-weight: bold;
+      color: #1e293b;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .send-btn .progress-container {
+      display: none;
+    }
+    .send-btn .button-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .send-btn.sending .button-content {
+      opacity: 0.7;
+    }
+    /* Input estilizado */
+    .custom-input {
+      border: 2px solid #e2e8f0;
+      transition: var(--transition);
+      padding: 0.75rem 1rem;
+      border-radius: 1.5rem;
+    }
+    .custom-input:focus {
+      border-color: #a5b4fc;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      outline: none;
+    }
+    /* Botão de galeria */
+    .gallery-btn {
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      border: 2px dashed #cbd5e1;
+      transition: var(--transition);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      border-radius: 1.5rem;
+    }
+    .gallery-btn:hover {
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      border-color: #94a3b8;
+    }
+    /* Preview de arquivo */
+    #filePreview, #messageVideoPreview {
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    #previewContent img, #previewContent video, #messageVideoContent video {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+    }
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .text-5xl { font-size: 2.25rem; }
+      .text-3xl { font-size: 1.5rem; }
+      .flex.gap-4 { flex-direction: row; }
+      .media-btn { min-height: 120px; }
+      #gallery { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+    /* Estilos para abas de filtro */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      background-color: #e2e8f0;
+      border-radius: 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+    .filter-tab.active {
+      background: var(--primary-gradient);
+      color: white;
+    }
+    /* Estilo para mensagens de erro */
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+    /* Estilo para mensagem de carregamento */
+    #loadingMessage {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+    /* --- CORREÇÃO: Estilos para evitar o pulinho (SEM travar a tela) --- */
+    .form-section {
+        display: none;
+        min-height: fit-content;
+    }
+    .form-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+    }
+    .progress-wrapper-placeholder {
+        height: calc(16px + 0.5rem + 0.5rem);
+        min-height: 26px;
+        width: 100%;
+    }
+    .progress-wrapper {
+        margin-bottom: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        height: 16px;
+        position: relative;
+    }
+    .progress-wrapper.visible {
+        opacity: 1;
+    }
+    /* --- FIM DA CORREÇÃO --- */
+    /* Estilos para miniaturas de múltiplos arquivos - MELHORADOS */
+    .file-thumbnails {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        justify-content: center;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+    .file-thumbnail {
+        width: 80px;
+        height: 80px;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid #e2e8f0;
+        box-sizing: border-box;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .file-thumbnail img, .file-thumbnail video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .file-thumbnail .remove-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(239, 68, 68, 0.8);
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 10;
+        border: 2px solid white;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+    .file-thumbnail:hover .remove-btn {
+       opacity: 1;
+    }
+    .file-count {
+        font-size: 0.875rem;
+        color: #64748b;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        text-align: center;
+    }
+    .preview-multi {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .preview-multi .file-count-display {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #94a3b8;
+    }
+    .preview-multi i {
+        font-size: 2rem;
+        color: #94a3b8;
+        margin-right: 0.5rem;
+    }
+    /* --- OCULTAR PRÉVIA GRANDE E AJUSTAR LAYOUT DAS MINIATURAS --- */
+    #previewContent, #messageVideoContent {
+        display: none;
+    }
+    #filePreview .text-center.p-4.bg-gray-50.rounded-lg,
+    #messageVideoPreview .text-center.p-4.bg-gray-50.rounded-lg {
+        padding-top: 0.5rem;
+    }
+    .file-thumbnail.video-thumbnail-preview {
+        background-color: #1e293b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .file-thumbnail.video-thumbnail-preview::before {
+        content: "▶";
+        color: white;
+        font-size: 1.5rem;
+        opacity: 0.8;
+    }
+    .file-thumbnail.video-thumbnail-preview img {
+        opacity: 0.7;
+    }
+    /* --- FIM DAS MODIFICAÇÕES DE PRÉVIA --- */
+    /* Dica de uso para excluir arquivos */
+    .delete-instruction {
+      font-size: 0.875rem;
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    /* EFEITO DE VIDRO (GLASSMORPHISM) - CORRIGIDO E MANTIDO */
+    .glass-card {
+      background-color: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .glass-card:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    /* Botões com ()efeito de vidro */
+    /* Botões com efeito de vidro */
+/* Botões com efeito de vidro (fundo translúcido) */
+/* Botões com efeito de vidro */
+.glass-header {
+  background-color: rgba(255, 255, 255, 0.15); /* mais transparente */
+  backdrop-filter: blur(16px) !important;      /* blur mais forte */
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+}
+.glass-btn {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #1e293b;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glass-btn:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Campos de entrada com efeito de vidro */
+.glass-input {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #1e293b;
+  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Estilo para o botão de galeria com efeito de vidro */
+.glass-gallery-btn {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px dashed rgba(255, 255, 255, 0.6);
+  color: #1e293b;
+  font-weight: 500;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.glass-gallery-btn:hover {
+  background-color: rgba(255, 255, 255, 0.65);
+  border-color: rgba(99, 102, 241, 0.6);
+}
+    /* Estilo para o botão de envio com gradiente original */
+    #sendMediaButton, #sendMessageButton {
+      background: var(--primary-gradient);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      box-shadow: 0 4px 6px rgba(30, 58, 138, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    #sendMediaButton:hover:not(:disabled), #sendMessageButton:hover:not(:disabled) {
+      background: var(--secondary-gradient);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(30, 58, 138, 0.3);
+    }
+    #sendMediaButton:disabled, #sendMessageButton:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    #sendMediaButton.sending, #sendMessageButton.sending {
+      background: #94a3b8;
+    }
+    #sendMediaButton.sent, #sendMessageButton.sent {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+.glass-custom {
+  background-color: rgba(255, 255, 255, 0.3); /* Aumentei de 0.15 para 0.3 */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+/* === Botões vidro escuro com texto evidente === */
+button.media-btn, a.media-btn, div.media-btn,
+button.glass-btn, a.glass-btn, div.glass-btn {
+  background: rgba(0, 0, 0, 0.64) !important;   /* vidro preto translúcido */
+  -webkit-backdrop-filter: blur(14px) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 1.5rem;
+  color: #ffffff !important;                   /* texto branco puro */
+  font-weight: 600;                            /* mais “grosso” */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.100);   /* contorno escuro p/ contraste */
+}
+
+/* texto secundário */
+button.media-btn small, a.media-btn small, div.media-btn small,
+button.glass-btn small, a.glass-btn small, div.glass-btn small {
+  color: #f5f5f5 !important; /* branco suave */
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+}
+
+/* hover (levemente mais escuro) */
+button.media-btn:hover, a.media-btn:hover, div.media-btn:hover,
+button.glass-btn:hover, a.glass-btn:hover, div.glass-btn:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+  transform: translateY(-2px);
+}
+/* === Glassmorphism profissional === */
+.glass {
+  background: rgba(255, 255, 255, 0.08); /* translúcido sutil */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.glass-btn {
+  composes: glass;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.glass-input {
+  composes: glass;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  color: #fff;
+}
+
+.glass-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+/* === Inputs de vidro (escuro) === */
+.glass-input {
+  background: rgba(0, 0, 0, 0.35); /* fundo preto translúcido */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  color: #fff; /* texto branco */
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.6); /* placeholder cinza claro */
+}
+
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.3);
+} 
+/* --- DESIGN ELEGANTE PARA O CABEÇALHO --- */
+.glass-header {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  padding: 2.5rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  color: #1e293b;
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Título principal: Cápsula do Tempo */
+.glass-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 2.75rem;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
+}
+
+.glass-header h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+/* Nome do casal: com estilo caligráfico refinado */
+.glass-header h2 {
+  font-family: 'dancing script', cursive;
+  font-size: 2.3rem;
+  color: #1E293B; /* marrom dourado suave, elegante */
+  margin-bottom: 1.8rem;
+  letter-spacing: 1.5px;
+  font-weight: 900;
+  opacity: 0.95;
+}
+
+/* Data: fonte limpa, mas com toque de classe */
+.glass-header .data {
+  font-family: 'dancing script', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 2.0rem;
+  text-shadow: none;
+rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+/* Frase final: itálico suave, como uma declaração de amor */
+.glass-header .frase {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  opacity: 0.92;
+  letter-spacing: 0.3px;
+}
+
+/* Pequeno coração decorativo antes da frase */
+.glass-header .frase::before {
+  content: "♥ ";
+  color: #f43f5e;
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+/* Efeito sutil ao passar o mouse (opcional) */
+.glass-header:hover {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+ </style>
+</head>
+<body>
+  <!-- NOVO: Wrapper para fundo fixo -->
+  <div class="bg-wrapper"></div>
+  <div class="container mx-auto px-4 py-8">
+    <!-- NOVO: Efeito de vidro envolvendo os textos principais -->
+ <div class="glass-header">
+  <div class="text-center mb-12">
+    <h1 class="text-5xl font-bold text-slate-700 mb-2">Cápsula do Tempo</h1>
+    <h2 class="text-3xl font-semibold text-rose-600 mb-2">Gabriely e João Elias</h2>
+<!-- Data -->
+<h2 class="text-xl font-semibold mb-2 text-gray-200 !text-gray-200">
+  05 de Outubro de 2025
+</h2>
+
+<!-- Frase -->
+<p class="text-lg md:text-xl font-medium text-gray-800 italic tracking-wide leading-relaxed max-w-2xl mx-auto">
+  “Cada momento compartilhado é um tesouro guardado para sempre.”
+</p>
+  </div>
+</div>
+    <!-- Botões de Alternância (um ao lado do outro, estilo cartão) -->
+    <div class="flex gap-4 mb-8">
+      <button id="photoBtn" class="toggle-btn active photo flex-1" onclick="showForm('photo')">
+        <i class="fas fa-camera mr-2"></i> Enviar Foto do Casamento
+      </button>
+      <button id="messageBtn" class="toggle-btn message flex-1" onclick="showForm('message')">
+        <i class="fas fa-envelope mr-2"></i> Enviar Mensagem para o Casal
+      </button>
+    </div>
+
+    <!-- Formulário de Envio de Foto - COM GLASS CARD -->
+    <div id="photoForm" class="form-section active glass-custom p-8 mb-12 max-w-3xl mx-auto">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Compartilhe um Momento Especial</h3>
+      <!-- Instrução para excluir arquivos -->
+      <div class="delete-instruction">
+       
+      </div>
+      <!-- Botões de Foto/Vídeo (um ao lado do outro e quadrados) - COM GLASS BTN -->
+      <div class="flex gap-4 mb-6">
+        <div class="media-btn glass-btn flex-1" onclick="document.getElementById('cameraInput').click()">
+          <i class="fas fa-camera"></i>
+          <div>Enviar Foto</div>
+          <small>clique para tirar uma foto</small>
+        </div>
+        <div class="media-btn glass-btn flex-1" onclick="document.getElementById('videoInput').click()">
+          <i class="fas fa-video"></i>
+          <div>Enviar Vídeo</div>
+          <small>clique para gravar um vídeo</small>
+        </div>
+      </div>
+      <!-- Inputs ocultos -->
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden" onchange="handleFileSelect(this.files[0])" />
+      <input type="file" id="videoInput" accept="video/*" capture="environment" class="hidden" onchange="handleFileSelect(this.files[0])" />
+      <!-- Input para escolher da galeria - COM GLASS GALLERY BTN -->
+      <div class="mb-6">
+        <button class="w-full py-3 px-4 glass-btn rounded-lg" onclick="document.getElementById('galleryInput').click()">
+          <i class="fas fa-images"></i> Escolher da Galeria
+        </button>
+        <input type="file" id="galleryInput" accept="image/*,video/*" multiple class="hidden" onchange="handleFileSelectMultiple(this.files)" />
+      </div>
+      <!-- Preview do arquivo selecionado -->
+      <div id="filePreview" class="mb-6 hidden">
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <div id="previewContent"></div>
+          <div id="fileThumbnails" class="file-thumbnails mt-2"></div>
+          <div id="fileCount" class="file-count"></div>
+        </div>
+      </div>
+      <!-- Input de nome - COM GLASS INPUT -->
+      <div class="mb-6">
+        <input type="text" id="guestNamePhoto" placeholder="Seu nome (opcional)" class="w-full glass-input text-gray-800" />
+      </div>
+      <!-- Mensagem de erro -->
+      <div id="photoError" class="error-message hidden"></div>
+      <!-- NOVO: Placeholder para a barra de progresso -->
+      <div class="progress-wrapper-placeholder">
+          <div class="progress-wrapper" id="sendMediaProgressWrapper">
+            <div class="progress-bar" id="sendMediaProgress"></div>
+            <div class="progress-text" id="sendMediaProgressText">0%</div>
+          </div>
+      </div>
+      <!-- Botão de envio - COM ESTILO ORIGINAL -->
+      <button id="sendMediaButton" class="send-btn w-full" onclick="sendMedia()" disabled>
+        <span class="button-content" id="sendMediaButtonText"><i class="fas fa-paper-plane mr-2"></i> Enviar</span>
+      </button>
+    </div>
+
+    <!-- Formulário de Envio de Mensagem - COM GLASS CARD -->
+    <div id="messageForm" class="form-section glass-card p-8 mb-12 max-w-3xl mx-auto">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Envie uma Mensagem Especial</h3>
+      <!-- Botões para enviar vídeo na aba de mensagem (um ao lado do outro) - COM GLASS BTN -->
+      <div class="flex gap-4 mb-6">
+        <div class="media-btn glass-btn" onclick="document.getElementById('messageVideoInput').click()">
+          <i class="fas fa-video"></i>
+          <div>Gravar Vídeo</div>
+          <small>Gravar um vídeo</small>
+        </div>
+        <div class="media-btn glass-btn" onclick="document.getElementById('messageGalleryInput').click()">
+          <i class="fas fa-folder-open"></i>
+          <div>Escolher da Galeria</div>
+          <small>Escolher vídeo da galeria</small>
+        </div>
+      </div>
+      <!-- Inputs ocultos para vídeos na aba de mensagem -->
+      <input type="file" id="messageVideoInput" accept="video/*" class="hidden" onchange="handleMessageVideoSelect(this.files[0])" />
+      <input type="file" id="messageGalleryInput" accept="video/*" multiple class="hidden" onchange="handleMessageVideoSelectMultiple(this.files)" />
+      <!-- Preview de vídeo na aba de mensagem -->
+      <div id="messageVideoPreview" class="mb-6 hidden">
+        <div class="text-center p-4 bg-gray-50 rounded-lg">
+          <div id="messageVideoContent"></div>
+          <div id="messageVideoThumbnails" class="file-thumbnails mt-2"></div>
+          <div id="messageVideoCount" class="file-count"></div>
+        </div>
+      </div>
+      <!-- Inputs de texto - COM GLASS INPUT -->
+      <div class="mb-4">
+        <input type="text" id="messageName" placeholder="Seu nome (opcional)" class="w-full glass-input text-gray-800" />
+      </div>
+      <div class="mb-6">
+        <textarea id="messageText" placeholder="Sua mensagem especial (opcional)..." class="w-full glass-input text-gray-800 h-32"></textarea>
+      </div>
+      <!-- Mensagem de erro -->
+      <div id="messageError" class="error-message hidden"></div>
+      <!-- NOVO: Placeholder para a barra de progresso -->
+      <div class="progress-wrapper-placeholder">
+          <div class="progress-wrapper" id="sendMessageProgressWrapper">
+            <div class="progress-bar" id="sendMessageProgress"></div>
+            <div class="progress-text" id="sendMessageProgressText">0%</div>
+          </div>
+      </div>
+      <!-- Botão de envio - COM ESTILO ORIGINAL -->
+      <button id="sendMessageButton" class="send-btn w-full" onclick="sendMessage()">
+        <span class="button-content" id="sendMessageButtonText"><i class="fas fa-heart mr-2"></i> Enviar Mensagem</span>
+      </button>
+    </div>
+
+    <!-- Seção da Galeria - COM GLASS CARD -->
+    <div id="gallery-container" class="glass-custom p-8">
+      <h3 class="text-3xl font-semibold text-gray-800 mb-6 text-center">✨ Galeria de Momentos Especiais</h3>
+      <!-- Abas de filtro -->
+      <div class="filter-tabs">
+        <div class="filter-tab active" data-filter="photos" onclick="filterGallery('casamento')">Fotos do Casamento</div>
+        <div class="filter-tab" data-filter="messages" onclick="filterGallery('mensagem')">Mensagens para o Casal</div>
+      </div>
+      <div id="gallery">
+        <div id="loadingMessage">Carregando galeria...</div>
+      </div>
+    </div>
+  </div>
+  <div id="successPopup" class="success-popup hidden">
+    <i class="fas fa-heart text-2xl mb-2"></i>
+    <h3 class="text-xl font-bold mb-1">Obrigado!</h3>
+    <p>Sua contribuição já está registrada. ❤️</p>
+  </div>
+  <div id="lightboxOverlay">
+    <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+    <span class="navButton" id="prevBtn">&#10094;</span>
+    <div id="lightboxContent">
+      <img id="lightboxImage" />
+      <video id="lightboxVideo" controls class="hidden"></video>
+    </div>
+    <span class="navButton" id="nextBtn">&#10095;</span>
+    <div id="lightboxCaption"></div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+  <script>
+    // CONFIGURAÇÕES DO CLOUDINARY (agora usado para tudo)
+    const CLOUDINARY_CLOUD_NAME = "dn7no2ayc"; // Seu Cloud Name
+    const CLOUDINARY_UPLOAD_PRESET = "capsula-tempo"; // Seu Upload Preset
+    // CORRIGIDO: Removido espaço no final do databaseURL
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWnPok4p37GnTI1JnSpLuaTqPEf92Ime0",
+      authDomain: "capsula-do-tempo-3612d.firebaseapp.com",
+      // Corrigido: Removido espaço no final
+      databaseURL: "https://capsula-do-tempo-3612d-default-rtdb.firebaseio.com",
+      projectId: "capsula-do-tempo-3612d",
+      storageBucket: "capsula-do-tempo-3612d.firebasestorage.app",
+      messagingSenderId: "342686664227",
+      appId: "1:342686664227:web:c4487263710ea5b5935396",
+      measurementId: "G-PDV599LDP1"
+    };
+    // Inicialização do Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    // Elementos do DOM
+    const gallery = document.getElementById("gallery");
+    const sendMediaButton = document.getElementById("sendMediaButton");
+    const sendMediaButtonText = document.getElementById("sendMediaButtonText");
+    const sendMediaProgress = document.getElementById("sendMediaProgress");
+    const sendMediaProgressText = document.getElementById("sendMediaProgressText"); // NOVO
+    const sendMessageButton = document.getElementById("sendMessageButton");
+    const sendMessageButtonText = document.getElementById("sendMessageButtonText");
+    const sendMessageProgress = document.getElementById("sendMessageProgress");
+    const sendMessageProgressText = document.getElementById("sendMessageProgressText"); // NOVO
+    const loadingMessage = document.getElementById("loadingMessage");
+    // Variáveis globais
+    let selectedFiles = []; // Alterado para array
+    let selectedMessageVideos = []; // Alterado para array
+    let photos = [];
+    let currentIndex = 0;
+    let currentFilter = 'casamento'; // Padrão para 'Fotos do Casamento'
+    let currentForm = 'photo'; // Rastrear o formulário ativo
+    // --- FUNÇÕES DE INTERFACE ---
+    // Função para alternar entre formulários
+    function showForm(formType) {
+      currentForm = formType; // Atualizar o formulário ativo
+      // Adicionar animação de bounce ao botão clicado
+      const clickedBtn = formType === 'photo' ? document.getElementById('photoBtn') : document.getElementById('messageBtn');
+      clickedBtn.classList.add('bounce');
+      // Remover a classe bounce após a animação terminar
+      setTimeout(() => {
+        clickedBtn.classList.remove('bounce');
+      }, 500); // Duração da animação
+      // Atualizar os botões de alternância
+      document.getElementById('photoBtn').classList.toggle('active', formType === 'photo');
+      document.getElementById('messageBtn').classList.toggle('active', formType === 'message');
+      // Mostra o formulário correto
+      document.getElementById('photoForm').classList.toggle('active', formType === 'photo');
+      document.getElementById('messageForm').classList.toggle('active', formType === 'message');
+      // Filtrar automaticamente a galeria com base no formulário ativo
+      // CORRIGIDO: Agora filtra corretamente
+      filterGallery(formType === 'photo' ? 'casamento' : 'mensagem');
+    }
+    // Função para filtrar a galeria - CORRIGIDA
+    function filterGallery(filter) {
+        currentFilter = filter;
+        console.log("Filtrando por:", filter);
+        // Atualizar abas ativas
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            const isActive = (filter === 'casamento' && tab.dataset.filter === 'photos') ||
+                             (filter === 'mensagem' && tab.dataset.filter === 'messages');
+            tab.classList.toggle('active', isActive);
+        });
+        // Filtrar itens da galeria
+        const mediaContainers = document.querySelectorAll('#gallery .media-container');
+        console.log("Total de itens na galeria:", mediaContainers.length);
+        let visibleCount = 0;
+        mediaContainers.forEach(container => {
+            const itemCategoria = container.dataset.categoria;
+            console.log("Item categoria:", itemCategoria, "Filtro:", filter);
+            if (filter === 'casamento' && itemCategoria === 'casamento') {
+                container.style.display = 'block';
+                visibleCount++;
+            } else if (filter === 'mensagem' && itemCategoria === 'mensagem') {
+                container.style.display = 'block';
+                visibleCount++;
+            } else {
+                container.style.display = 'none';
+            }
+        });
+        console.log("Itens visíveis após filtro:", visibleCount);
+    }
+    function showPopup() {
+      const popup = document.getElementById("successPopup");
+      popup.classList.remove("hidden");
+      setTimeout(() => popup.classList.add("hidden"), 3000);
+    }
+    function closeLightbox() {
+      document.getElementById("lightboxOverlay").style.display = "none";
+      document.body.style.overflow = "";
+    }
+    // Função para mostrar mensagem de erro
+    function showError(elementId, message) {
+      const errorElement = document.getElementById(elementId);
+      errorElement.textContent = message;
+      errorElement.classList.remove('hidden');
+      // Esconder mensagem após 5 segundos
+      setTimeout(() => {
+        errorElement.classList.add('hidden');
+      }, 5000);
+    }
+    // --- FUNÇÕES DE MANIPULAÇÃO DE ARQUIVOS ---
+    // --- NOVA FUNÇÃO: resizeImageForUpload - OTIMIZADA ---
+    // Esta função redimensiona imagens mantendo qualidade e tentando não ser muito agressiva
+    function resizeImageForUpload(file, maxWidth = 1920, maxHeight = 1920, qualityStart = 0.92, qualityStep = 0.05, minQuality = 0.70) {
+        // Se o arquivo for menor que 1MB, envia direto
+        if (file.size < 1 * 1024 * 1024) {
+            console.log("Arquivo menor que 1MB, enviando original.");
+            return Promise.resolve(file);
+        }
+        return new Promise((resolve, reject) => {
+            // Verificar se é uma imagem
+            if (!file.type.startsWith('image/')) {
+                console.warn("Arquivo não é uma imagem, retornando arquivo original.");
+                resolve(file);
+                return;
+            }
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(file);
+            img.onload = () => {
+                // Revogar URL imediatamente após carregar para liberar memória
+                URL.revokeObjectURL(objectUrl);
+                let { width, height } = img;
+                // Calcular nova dimensão mantendo a proporção
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+                // Se a imagem já estiver dentro dos limites, não redimensiona
+                if (width === img.width && height === img.height) {
+                    console.log("Imagem já está dentro dos limites, retornando original.");
+                    resolve(file);
+                    return;
+                }
+                // Criar canvas para redimensionamento
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    console.error("Não foi possível obter o contexto 2D do canvas.");
+                    reject(new Error("Falha ao criar contexto 2D para redimensionamento."));
+                    return;
+                }
+                // Desenhar imagem redimensionada no canvas
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0, width, height);
+                // Função para tentar converter com uma qualidade específica
+                const tryQuality = (quality) => {
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const resizedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            console.log(`Tentativa de qualidade ${quality}: ${resizedFile.size} bytes`);
+                            // Se o tamanho for aceitável ou qualidade mínima for atingida, resolve
+                            if (resizedFile.size < 5 * 1024 * 1024 || quality <= minQuality) { // Limite de 5MB
+                                console.log(`Imagem redimensionada de ${img.width}x${img.height} para ${width}x${height}. Tamanho original: ${(file.size / 1024 / 1024).toFixed(2)}MB, Novo tamanho: ${(resizedFile.size / 1024 / 1024).toFixed(2)}MB com qualidade ${quality}`);
+                                resolve(resizedFile);
+                            } else {
+                                // Se não, tenta com qualidade menor
+                                const nextQuality = quality - qualityStep;
+                                if (nextQuality >= minQuality) {
+                                    tryQuality(nextQuality);
+                                } else {
+                                    // Se mesmo a qualidade mínima não ajudar, envia o original
+                                    console.warn("Mesmo com qualidade mínima, arquivo é muito grande. Enviando original.");
+                                    resolve(file);
+                                }
+                            }
+                        } else {
+                            console.error("Falha ao converter canvas para blob.");
+                            reject(new Error("Falha ao converter imagem redimensionada."));
+                        }
+                    }, 'image/jpeg', quality);
+                };
+                // Iniciar tentativa com a qualidade inicial
+                tryQuality(qualityStart);
+            };
+            img.onerror = (err) => {
+                // Revogar URL em caso de erro também
+                URL.revokeObjectURL(objectUrl);
+                console.error("Erro ao carregar imagem para redimensionamento:", err);
+                reject(new Error("Falha ao carregar imagem para redimensionamento."));
+            };
+            // Iniciar o carregamento da imagem
+            img.src = objectUrl;
+        });
+    }
+    // Função para lidar com a seleção de arquivo de foto/vídeo - CORRIGIDA
+    function handleFileSelect(file) {
+      if (!file) return;
+      // Remover limite de tamanho para vídeos (ou definir um limite muito alto)
+      const maxSize = file.type.startsWith('video/') ? 500 * 1024 * 1024 : 15 * 1024 * 1024; // 500MB para vídeos, 15MB para fotos
+      if (file.type.startsWith('video/') && file.size > maxSize) {
+        showError('photoError', 'O vídeo deve ter no máximo 500MB');
+        return;
+      }
+      // Limitar tamanho da imagem (ex: 15MB)
+      if (file.type.startsWith('image/') && file.size > maxSize) {
+        showError('photoError', 'A imagem deve ter no máximo 15MB');
+        return;
+      }
+      // Adicionar o arquivo ao array
+      selectedFiles.push(file);
+      console.log("Arquivos selecionados (foto):", selectedFiles);
+      // Atualizar o preview com o último arquivo adicionado
+      updateFilePreview();
+    }
+    // Nova função para lidar com múltiplas seleções
+    function handleFileSelectMultiple(files) {
+      // Iterar sobre todos os arquivos selecionados
+      for (let file of files) {
+        // Verificar se já existe no array
+        if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+          // Adicionar ao array apenas se não existir
+          selectedFiles.push(file);
+          console.log("Arquivo adicionado (foto):", file.name);
+        }
+      }
+      // Atualizar o preview com todos os arquivos
+      updateFilePreview();
+    }
+    // Função para lidar com a seleção de vídeo na aba de mensagem
+    function handleMessageVideoSelect(file) {
+      if (!file) return;
+      if (!file.type.startsWith('video/')) {
+        showError('messageError', 'Por favor, selecione um arquivo de vídeo.');
+        return;
+      }
+      // Remover limite de tamanho para vídeos (ou definir um limite muito alto)
+      const maxSize = 500 * 1024 * 1024; // 500MB
+      if (file.size > maxSize) {
+        showError('messageError', 'O vídeo deve ter no máximo 500MB');
+        return;
+      }
+      // Adicionar o arquivo ao array
+      selectedMessageVideos.push(file);
+      console.log("Arquivos selecionados (mensagem):", selectedMessageVideos);
+      // Atualizar o preview com o último arquivo adicionado
+      updateMessageVideoPreview();
+    }
+    // Nova função para lidar com múltiplas seleções de vídeo
+    function handleMessageVideoSelectMultiple(files) {
+      // Iterar sobre todos os arquivos selecionados
+      for (let file of files) {
+        // Verificar se já existe no array
+        if (!selectedMessageVideos.some(f => f.name === file.name && f.size === file.size)) {
+          // Adicionar ao array apenas se não existir
+          selectedMessageVideos.push(file);
+          console.log("Arquivo adicionado (mensagem):", file.name);
+        }
+      }
+      // Atualizar o preview com todos os arquivos
+      updateMessageVideoPreview();
+    }
+    // Função para atualizar o preview de foto (MODIFICADA)
+    function updateFilePreview() {
+      if (selectedFiles.length === 0) return;
+      const filePreview = document.getElementById('filePreview');
+      const previewContent = document.getElementById('previewContent'); // Será oculto
+      const fileThumbnails = document.getElementById('fileThumbnails');
+      const fileCount = document.getElementById('fileCount');
+      const errorElement = document.getElementById('photoError');
+      // Esconder mensagens de erro anteriores
+      errorElement.classList.add('hidden');
+      // Limpar conteúdo de prévia anterior (não será mais usado)
+      previewContent.innerHTML = '';
+      fileThumbnails.innerHTML = '';
+      // Criar miniaturas para todos os arquivos selecionados
+      selectedFiles.forEach((file, index) => {
+        const thumbnailContainer = document.createElement('div');
+        thumbnailContainer.className = 'file-thumbnail';
+        if (file.type.startsWith('image/')) {
+          const img = document.createElement('img');
+          const thumbUrl = URL.createObjectURL(file);
+          img.src = thumbUrl;
+          img.onload = () => URL.revokeObjectURL(thumbUrl);
+          thumbnailContainer.appendChild(img);
+        } else if (file.type.startsWith('video/')) {
+            // --- MODIFICAÇÃO: Melhor visualização para vídeos ---
+            thumbnailContainer.classList.add('video-thumbnail-preview'); // Adiciona classe específica
+            // Tenta criar uma miniatura (pode não funcionar em todos os navegadores)
+            // Mas o CSS ::before já fornece um ícone de play
+            const video = document.createElement('video');
+            video.muted = true; // Importante para autoplay em alguns navegadores
+            video.playsInline = true; // Para dispositivos móveis
+            const source = document.createElement('source');
+            const thumbUrl = URL.createObjectURL(file);
+            source.src = thumbUrl;
+            source.type = file.type;
+            video.appendChild(source);
+            // Tentar capturar um frame do vídeo para usar como miniatura
+            video.onloadeddata = () => {
+                 URL.revokeObjectURL(thumbUrl);
+                 try {
+                     // Este método pode não ser suportado em todos os navegadores
+                     const canvas = document.createElement('canvas');
+                     canvas.width = video.videoWidth / 4; // Reduz a resolução para a miniatura
+                     canvas.height = video.videoHeight / 4;
+                     const ctx = canvas.getContext('2d');
+                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                     const dataURL = canvas.toDataURL('image/jpeg');
+                     const img = document.createElement('img');
+                     img.src = dataURL;
+                     // Substitui o conteúdo do container pela imagem gerada
+                     thumbnailContainer.innerHTML = '';
+                     thumbnailContainer.appendChild(img);
+                 } catch (e) {
+                     console.warn("Não foi possível gerar miniatura do vídeo para prévia:", e);
+                     // Se falhar, mantém o ícone de play do CSS
+                 }
+            };
+            thumbnailContainer.appendChild(video);
+            // --- FIM DA MODIFICAÇÃO ---
+        }
+        const removeBtn = document.createElement('span');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.onclick = (e) => {
+          e.stopPropagation(); // Impede propagação do clique para o container
+          // Remover o arquivo do array usando o índice do loop
+          selectedFiles.splice(index, 1);
+          updateFilePreview();
+          // Se não houver mais arquivos, desabilita o botão de envio
+          if (selectedFiles.length === 0) {
+            sendMediaButton.disabled = true;
+          }
+        };
+        thumbnailContainer.appendChild(removeBtn);
+        fileThumbnails.appendChild(thumbnailContainer);
+      });
+      // Atualizar contador de arquivos
+      fileCount.textContent = selectedFiles.length === 1 ? '1 arquivo selecionado' : `${selectedFiles.length} arquivos selecionados`;
+      filePreview.classList.remove('hidden');
+      sendMediaButton.disabled = false;
+    }
+    // Função para atualizar o preview de vídeo de mensagem (MODIFICADA)
+    function updateMessageVideoPreview() {
+      if (selectedMessageVideos.length === 0) return;
+      const videoPreview = document.getElementById('messageVideoPreview');
+      const videoContent = document.getElementById('messageVideoContent'); // Será oculto
+      const videoThumbnails = document.getElementById('messageVideoThumbnails');
+      const videoCount = document.getElementById('messageVideoCount');
+      const errorElement = document.getElementById('messageError');
+      // Esconder mensagens de erro anteriores
+      errorElement.classList.add('hidden');
+      // Limpar conteúdo de prévia anterior (não será mais usado)
+      videoContent.innerHTML = '';
+      videoThumbnails.innerHTML = '';
+      // Criar miniaturas para todos os vídeos selecionados
+      selectedMessageVideos.forEach((file, index) => {
+        const thumbnailContainer = document.createElement('div');
+        thumbnailContainer.className = 'file-thumbnail';
+         // --- MODIFICAÇÃO: Melhor visualização para vídeos ---
+        if (file.type.startsWith('video/')) {
+            thumbnailContainer.classList.add('video-thumbnail-preview'); // Adiciona classe específica
+            // Tenta criar uma miniatura (pode não funcionar em todos os navegadores)
+            // Mas o CSS ::before já fornece um ícone de play
+            const video = document.createElement('video');
+            video.muted = true; // Importante para autoplay em alguns navegadores
+            video.playsInline = true; // Para dispositivos móveis
+            const source = document.createElement('source');
+            const thumbUrl = URL.createObjectURL(file);
+            source.src = thumbUrl;
+            source.type = file.type;
+            video.appendChild(source);
+            // Tentar capturar um frame do vídeo para usar como miniatura
+            video.onloadeddata = () => {
+                 URL.revokeObjectURL(thumbUrl);
+                 try {
+                     // Este método pode não ser suportado em todos os navegadores
+                     const canvas = document.createElement('canvas');
+                     canvas.width = video.videoWidth / 4; // Reduz a resolução para a miniatura
+                     canvas.height = video.videoHeight / 4;
+                     const ctx = canvas.getContext('2d');
+                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                     const dataURL = canvas.toDataURL('image/jpeg');
+                     const img = document.createElement('img');
+                     img.src = dataURL;
+                     // Substitui o conteúdo do container pela imagem gerada
+                     thumbnailContainer.innerHTML = '';
+                     thumbnailContainer.appendChild(img);
+                 } catch (e) {
+                     console.warn("Não foi possível gerar miniatura do vídeo para prévia (mensagem):", e);
+                     // Se falhar, mantém o ícone de play do CSS
+                 }
+            };
+            thumbnailContainer.appendChild(video);
+        }
+        // --- FIM DA MODIFICAÇÃO ---
+        const removeBtn = document.createElement('span');
+        removeBtn.className = 'remove-btn';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.onclick = (e) => {
+          e.stopPropagation(); // Impede propagação do clique para o container
+          selectedMessageVideos.splice(index, 1);
+          updateMessageVideoPreview();
+          // Se não houver mais vídeos, o botão pode continuar habilitado se houver texto
+          // Mas se não houver texto nem vídeos, desabilita
+          const messageText = document.getElementById('messageText').value.trim();
+          if (selectedMessageVideos.length === 0 && !messageText) {
+            sendMessageButton.disabled = true;
+          }
+        };
+        thumbnailContainer.appendChild(removeBtn);
+        videoThumbnails.appendChild(thumbnailContainer);
+      });
+      // Atualizar contador de vídeos
+      videoCount.textContent = selectedMessageVideos.length === 1 ? '1 vídeo selecionado' : `${selectedMessageVideos.length} vídeos selecionados`;
+      videoPreview.classList.remove('hidden');
+      sendMessageButton.disabled = false; // Habilita o botão ao selecionar um vídeo
+    }
+    // --- FUNÇÕES DE UPLOAD ---
+    // Função UNIFICADA para upload para Cloudinary (para todas as mídias)
+    function uploadToCloudinary(file, progressBarElement, progressTextElement) {
+      return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        const xhr = new XMLHttpRequest();
+        // CORRIGIDO - URL correta para Cloudinary (sem espaços)
+        const uploadUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`;
+        // Aumentar timeout para 10 minutos
+        xhr.timeout = 600000; // 10 minutos
+        // Monitorar progresso
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable && progressBarElement && progressTextElement) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            progressBarElement.style.width = percentComplete + '%';
+            progressTextElement.textContent = percentComplete + '%';
+            console.log(`Cloudinary Upload: ${percentComplete}%`);
+          }
+        });
+        xhr.addEventListener('load', () => {
+          console.log('Resposta bruta do Cloudinary:', xhr.responseText); // Para debug
+          if (xhr.status === 200) {
+            let response;
+            try {
+              response = JSON.parse(xhr.responseText);
+            } catch (parseError) {
+              console.error('Erro ao parsear resposta JSON do Cloudinary:', parseError, xhr.responseText);
+              reject(new Error(`Resposta inválida do Cloudinary: ${xhr.responseText.substring(0, 100)}...`));
+              return;
+            }
+            if (response && response.secure_url) {
+              console.log("Upload Cloudinary bem-sucedido. URL:", response.secure_url);
+              resolve(response.secure_url);
+            } else {
+              console.error('Erro ou resposta inesperada do Cloudinary:', response);
+              reject(new Error(`Cloudinary API Error: ${response.error?.message || 'Resposta inválida'}`));
+            }
+          } else {
+            console.error('Erro no upload Cloudinary - Status:', xhr.status, 'Resposta:', xhr.responseText);
+            reject(new Error(`Erro no upload Cloudinary: ${xhr.status} - ${xhr.responseText}`));
+          }
+        });
+        xhr.addEventListener('error', () => {
+          console.error('Erro de conexão Cloudinary');
+          reject(new Error('Erro de conexão com Cloudinary - verifique sua internet.'));
+        });
+        xhr.addEventListener('timeout', () => {
+          reject(new Error('Tempo de upload esgotado para Cloudinary. Tente um arquivo menor ou verifique sua conexão.'));
+        });
+        xhr.open('POST', uploadUrl);
+        xhr.send(formData);
+        console.log("Requisição POST enviada para Cloudinary.");
+      });
+    }
+    // Função modificada para enviar mídia (agora tudo vai para o Cloudinary)
+    async function sendMedia() {
+      if (selectedFiles.length === 0) {
+        showError('photoError', 'Nenhum arquivo selecionado.');
+        return;
+      }
+      const name = document.getElementById('guestNamePhoto').value || 'Anônimo';
+      const originalText = sendMediaButtonText.innerHTML;
+      const errorElement = document.getElementById('photoError');
+      errorElement.classList.add('hidden');
+      sendMediaButton.disabled = true;
+      sendMediaButton.classList.add('sending');
+      sendMediaButtonText.innerHTML = '<span class="spinner-icon">💕</span> Enviando...';
+      // Mostrar a barra de progresso acima
+      document.getElementById('sendMediaProgressWrapper').classList.add('visible');
+      sendMediaProgress.style.width = '0%';
+      sendMediaProgressText.textContent = '0%'; // NOVO: Resetar texto
+      try {
+        // Array para armazenar os URLs das mídias enviadas
+        const mediaUrls = [];
+        // Processar cada arquivo selecionado
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          let processedFile = file;
+          // --- NOVO: Redimensionar imagem antes do upload (função otimizada) ---
+          if (file.type.startsWith('image/')) {
+              try {
+                  console.log("Tentando redimensionar imagem para upload...");
+                  processedFile = await resizeImageForUpload(file);
+                  console.log("Imagem processada para upload:", processedFile.name, (processedFile.size / 1024 / 1024).toFixed(2) + "MB");
+              } catch (resizeError) {
+                  console.warn("Falha ao redimensionar imagem, enviando original:", resizeError.message);
+                  // Se falhar, continua com o arquivo original
+                  processedFile = file;
+              }
+          }
+          // AGORA: Todos os uploads (fotos e vídeos) vão para o Cloudinary
+          console.log("Iniciando upload para Cloudinary...");
+          const mediaURL = await uploadToCloudinary(processedFile, sendMediaProgress, sendMediaProgressText);
+          console.log("Upload concluído:", mediaURL);
+          // Salvar no Firebase
+          console.log("Salvando dados no Firebase...");
+          const newEntry = database.ref('itens').push();
+          await newEntry.set({
+            name,
+            message: '',
+            url: mediaURL,
+            timestamp: Date.now(), // Adicionado para ordenar por tempo
+            type: file.type.startsWith('video/') ? 'video' : 'image',
+            categoria: 'casamento' // Aqui é a chave crucial
+          });
+          console.log("Dados salvos no Firebase com sucesso.");
+          // Adicionar o URL ao array
+          mediaUrls.push(mediaURL);
+        }
+        // Após todos os uploads forem concluídos, atualizar o estado do botão
+        sendMediaButton.classList.remove('sending');
+        sendMediaButton.classList.add('sent');
+        sendMediaButtonText.innerHTML = '<i class="fas fa-check mr-2"></i> Enviado!';
+        showPopup();
+        // --- CORRIGIDO: Resetar o formulário APÓS o pop-up desaparecer ---
+        setTimeout(() => {
+          // 1. Resetar estado do botão
+          sendMediaButton.classList.remove('sent');
+          sendMediaButton.disabled = true;
+          sendMediaButtonText.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> Enviar';
+          // 2. Resetar barra de progresso
+          sendMediaProgress.style.width = '0%';
+          sendMediaProgressText.textContent = '0%';
+          document.getElementById('sendMediaProgressWrapper').classList.remove('visible');
+          // 3. Resetar preview da mídia
+          document.getElementById('filePreview').classList.add('hidden');
+          const previewContent = document.getElementById('previewContent');
+          const imgPreview = previewContent.querySelector('img');
+          if (imgPreview && imgPreview.src && imgPreview.src.startsWith('blob:')) {
+              URL.revokeObjectURL(imgPreview.src);
+              imgPreview.src = ''; // Limpar src
+          }
+          previewContent.innerHTML = ''; // Limpar conteúdo do preview
+          // 4. Resetar campo de formulário
+          document.getElementById('guestNamePhoto').value = '';
+          selectedFiles = []; // Limpar o array de arquivos selecionados
+          // 5. Resetar inputs de arquivo (para permitir re-seleção do mesmo arquivo)
+          document.getElementById('cameraInput').value = '';
+          document.getElementById('videoInput').value = '';
+          document.getElementById('galleryInput').value = '';
+        }, 3000); // Tempo igual ao do popup (3000ms) para garantir que ele suma primeiro
+      } catch (err) {
+        console.error("Erro completo no processo de envio:", err);
+        showError('photoError', `Falha no envio: ${err.message || "Erro desconhecido. Verifique o console do navegador."}`);
+        sendMediaButton.classList.remove('sending');
+        sendMediaButton.disabled = false;
+        sendMediaButtonText.innerHTML = originalText;
+        sendMediaProgress.style.width = '0%';
+        sendMediaProgressText.textContent = '0%'; // NOVO: Resetar texto
+        // Esconder a barra de progresso acima em caso de erro
+        document.getElementById('sendMediaProgressWrapper').classList.remove('visible');
+      }
+    }
+    // Função modificada para enviar mensagem com vídeo (continua usando Cloudinary)
+    async function sendMessage() {
+      const name = document.getElementById('messageName').value.trim() || 'Anônimo';
+      const message = document.getElementById('messageText').value.trim();
+      const originalHTML = sendMessageButtonText.innerHTML;
+      const errorElement = document.getElementById('messageError');
+      errorElement.classList.add('hidden');
+      sendMessageButton.disabled = true;
+      sendMessageButtonText.innerHTML = '<span class="spinner-icon">💌</span> Enviando...';
+      // Mostrar a barra de progresso acima
+      document.getElementById('sendMessageProgressWrapper').classList.add('visible');
+      sendMessageProgress.style.width = '0%';
+      sendMessageProgressText.textContent = '0%'; // NOVO: Resetar texto
+      try {
+        // Array para armazenar os URLs dos vídeos enviados
+        const videoUrls = [];
+        // Processar cada vídeo selecionado
+        for (let i = 0; i < selectedMessageVideos.length; i++) {
+          const file = selectedMessageVideos[i];
+          // AGORA: Todos os uploads (fotos e vídeos) vão para o Cloudinary
+          console.log("Iniciando upload de vídeo de mensagem para Cloudinary...");
+          const videoURL = await uploadToCloudinary(file, sendMessageProgress, sendMessageProgressText);
+          console.log("Upload de vídeo de mensagem concluído:", videoURL);
+          // Adicionar o URL ao array
+          videoUrls.push(videoURL);
+        }
+        // Salvar no Firebase
+        console.log("Salvando mensagem no Firebase...");
+        const newEntry = database.ref('itens').push();
+        await newEntry.set({
+          name,
+          message: message || '',
+          timestamp: Date.now(), // Adicionado para ordenar por tempo
+          videoURL: videoUrls.length > 0 ? videoUrls[0] : null, // Enviar apenas o primeiro vídeo (ou null)
+          type: videoUrls.length > 0 ? 'video_message' : 'text_message',
+          categoria: 'mensagem' // Aqui é a chave crucial
+        });
+        console.log("Mensagem salva no Firebase com sucesso.");
+        sendMessageButton.classList.add('sent');
+        sendMessageButtonText.innerHTML = '<i class="fas fa-check mr-2"></i> Mensagem Enviada!';
+        showPopup();
+        // --- CORRIGIDO: Resetar o formulário APÓS o pop-up desaparecer ---
+        setTimeout(() => {
+          // 1. Resetar estado do botão
+          sendMessageButton.classList.remove('sent');
+          sendMessageButton.disabled = false;
+          sendMessageButtonText.innerHTML = '<i class="fas fa-heart mr-2"></i> Enviar Mensagem';
+          // 2. Resetar barra de progresso
+          sendMessageProgress.style.width = '0%';
+          sendMessageProgressText.textContent = '0%';
+          document.getElementById('sendMessageProgressWrapper').classList.remove('visible');
+          // 3. Resetar preview de vídeo de mensagem
+          document.getElementById('messageVideoPreview').classList.add('hidden');
+          const messageVideoContent = document.getElementById('messageVideoContent');
+          const videoPreview = messageVideoContent.querySelector('video source');
+          if (videoPreview && videoPreview.src && videoPreview.src.startsWith('blob:')) {
+              URL.revokeObjectURL(videoPreview.src);
+              videoPreview.src = ''; // Limpar src
+          }
+          messageVideoContent.innerHTML = ''; // Limpar conteúdo do preview
+          // 4. Resetar campos de formulário
+          document.getElementById('messageName').value = "";
+          document.getElementById('messageText').value = "";
+          selectedMessageVideos = []; // Limpar o array de vídeos selecionados
+          document.getElementById('messageVideoInput').value = '';
+          document.getElementById('messageGalleryInput').value = '';
+        }, 3000); // Tempo igual ao do popup (3000ms) para garantir que ele suma primeiro
+      } catch (err) {
+        console.error("Erro completo no processo de envio de mensagem:", err);
+        showError('messageError', `Falha no envio: ${err.message || "Erro desconhecido. Verifique o console do navegador."}`);
+        sendMessageButton.disabled = false;
+        sendMessageButtonText.innerHTML = originalHTML;
+        sendMessageProgress.style.width = '0%';
+        sendMessageProgressText.textContent = '0%'; // NOVO: Resetar texto
+        // Esconder a barra de progresso acima em caso de erro
+        document.getElementById('sendMessageProgressWrapper').classList.remove('visible');
+      }
+    }
+    // --- FUNÇÕES DA GALERIA ---
+    // Função unificada para adicionar qualquer item à galeria - CORRIGIDA
+    function addItemToGallery(itemData) {
+        // itemData contém todos os dados do Firebase
+        const { name, message, url, videoURL, type, categoria } = itemData;
+        // Remover mensagem de carregamento se for o primeiro item
+        if (loadingMessage && loadingMessage.parentNode === gallery) {
+            gallery.removeChild(loadingMessage);
+        }
+        const container = document.createElement("div");
+        container.className = "media-container";
+        // Usar o campo 'categoria' do Firebase para filtragem
+        container.dataset.categoria = categoria;
+        // Determinar o tipo de mídia para exibição
+        const displayType = type; // Usar o tipo exatamente como salvo no Firebase
+        if (displayType === 'video') {
+            // Vídeos do casamento (salvos no Cloudinary) com informações abaixo
+            container.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="${url}" alt="Miniatura do vídeo" loading="lazy">
+                    <div class="video-overlay">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="media-info text-center">
+                    <div class="text-xs font-medium truncate">${name || 'Anônimo'}</div>
+                </div>
+            `;
+        } else if (displayType === 'video_message') {
+            // Vídeos de mensagem (salvos no Cloudinary) com nome e mensagem abaixo
+            container.innerHTML = `
+                <div class="video-thumbnail">
+                    <img src="${videoURL}" alt="Miniatura do vídeo" loading="lazy">
+                    <div class="video-overlay">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="media-info text-center">
+                    <div class="text-xs font-medium truncate">${name || 'Anônimo'}</div>
+                    <div class="text-xs text-gray-500 truncate">${message || ''}</div>
+                </div>
+            `;
+        } else if (displayType === 'text_message') {
+            // Mensagens de texto
+            container.innerHTML = `
+                <div class="bg-gradient-to-br from-blue-50 to-rose-50 h-full flex items-center justify-center p-2">
+                    <div class="text-center">
+                        <i class="fas fa-comment-alt text-2xl mb-2 text-rose-500"></i>
+                        <div class="text-xs font-medium truncate">${name || 'Anônimo'}</div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Imagens (salvas no Cloudinary)
+            container.innerHTML = `<img src="${url}" alt="${name || 'Foto'}" loading="lazy">`;
+        }
+        // Adicionar no início para mostrar os mais recentes primeiro
+        gallery.insertBefore(container, gallery.firstChild);
+        // Adicionar à lista interna para lightbox (se necessário)
+        // Armazenar o URL correto para identificação
+        photos.unshift({
+            name,
+            message,
+            url: displayType === 'video_message' ? videoURL : url,
+            type: displayType,
+            videoURL: displayType === 'video_message' ? videoURL : null
+        });
+        // Adicionar evento de clique
+        container.addEventListener("click", () => {
+            if (displayType === 'text_message' && message) {
+                alert(`Mensagem de ${name || 'Anônimo'}:
+${message}`);
+            } else {
+                const targetUrl = displayType === 'video_message' ? videoURL : url;
+                currentIndex = photos.findIndex(p => p.url === targetUrl);
+                if (currentIndex !== -1) {
+                  showLightbox(currentIndex);
+                }
+            }
+        });
+        // Aplicar filtro imediatamente após adicionar
+        filterGallery(currentFilter);
+    }
+    // --- CONFIGURAÇÃO DA GALERIA EM TEMPO REAL ---
+    function setupRealtimeGallery() {
+        console.log("Iniciando configuração da galeria...");
+        // Verificar se o Firebase foi inicializado corretamente
+        if (!database) {
+            console.error("Firebase não inicializado corretamente.");
+            if (loadingMessage) loadingMessage.textContent = "Erro ao carregar galeria.";
+            return;
+        }
+        try {
+            // Escutar o nó 'itens' que agora contém tudo
+            const itensRef = database.ref('itens');
+            // Listener para quando a conexão for estabelecida
+            itensRef.once('value')
+                .then(() => {
+                    console.log("Conexão com Firebase estabelecida com sucesso.");
+                    if (loadingMessage) loadingMessage.textContent = "Nenhum item encontrado.";
+                })
+                .catch(error => {
+                    console.error("Erro ao conectar ao Firebase:", error);
+                    if (loadingMessage) loadingMessage.textContent = "Erro ao carregar galeria.";
+                });
+            // Ordenar por timestamp em ordem decrescente (mais recente primeiro)
+            // Usar 'child_added' para adicionar novos itens em tempo real
+            itensRef.orderByChild('timestamp').on('child_added', (snapshot) => {
+                console.log("Novo item adicionado:", snapshot.key);
+                const itemData = snapshot.val();
+                if (itemData) {
+                    addItemToGallery(itemData);
+                }
+            }, (error) => {
+                console.error("Erro ao ouvir itens do Firebase:", error);
+                if (loadingMessage) loadingMessage.textContent = "Erro ao carregar galeria.";
+            });
+            // Listener para erros na conexão
+            itensRef.on('error', (error) => {
+                console.error("Erro na referência do Firebase:", error);
+                if (loadingMessage) loadingMessage.textContent = "Erro ao carregar galeria.";
+            });
+        } catch (error) {
+            console.error("Erro ao configurar a galeria:", error);
+            if (loadingMessage) loadingMessage.textContent = "Erro ao carregar galeria.";
+        }
+    }
+    // Inicialização quando a página carrega
+    window.addEventListener('DOMContentLoaded', () => {
+        console.log("DOM carregado. Inicializando...");
+        setupRealtimeGallery();
+        // Garantir que o filtro inicial seja aplicado corretamente
+        // CORRIGIDO: Aplicar filtro após um pequeno delay para garantir que os itens sejam carregados
+        setTimeout(() => {
+            filterGallery('casamento');
+        }, 1000); // Aumentado o delay para 1 segundo
+    });
+    // --- LIGHTBOX ---
+    const lightbox = document.getElementById("lightboxOverlay");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxVideo = document.getElementById("lightboxVideo");
+    const lightboxCaption = document.getElementById("lightboxCaption");
+    function showLightbox(index) {
+      const photo = photos[index];
+      if (!photo) return;
+      if (photo.type === 'video' || (photo.type === 'video_message' && photo.videoURL)) {
+        lightboxImage.classList.add('hidden');
+        lightboxVideo.classList.remove('hidden');
+        lightboxVideo.src = photo.url || photo.videoURL;
+        lightboxVideo.load();
+        lightboxCaption.innerHTML = `<strong>${photo.name || 'Anônimo'}</strong>`;
+      } else {
+        lightboxImage.classList.remove('hidden');
+        lightboxVideo.classList.add('hidden');
+        lightboxImage.src = photo.url;
+        lightboxCaption.innerHTML = `<strong>${photo.name || 'Anônimo'}</strong>`;
+      }
+      lightbox.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+    document.getElementById("prevBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+      showLightbox(currentIndex);
+    });
+    document.getElementById("nextBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % photos.length;
+      showLightbox(currentIndex);
+    });
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    // Swipe touch para lightbox
+    let startX = 0;
+    const lightboxContent = document.getElementById("lightboxContent");
+    lightboxContent.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+    lightboxContent.addEventListener('touchend', (e) => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+      if (Math.abs(diff) > 50) {
+        currentIndex = diff < 0 ? (currentIndex + 1) % photos.length : (currentIndex - 1 + photos.length) % photos.length;
+        showLightbox(currentIndex);
+      }
+    });
+  </script>
+</body>
+</html>
